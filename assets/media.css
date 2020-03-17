@@ -1,0 +1,88 @@
+@media screen and (max-width: 1024px) {
+    body {
+        font-size: 1.5em;
+        text-align: center;
+    }
+
+    /* begin navbar stuff */
+    .navbar {
+        width: 100%;
+        position: fixed;
+        z-index: 100;
+        top: 3em;
+        font-size: 1.6em;
+        padding-top: 1.2rem;
+        padding-bottom: 1.2rem;
+        justify-content: space-around;
+    }
+    .desktop {
+        /* Sets the desktop version of the navbar to not display on mobile */
+        display: none;
+    }
+    .mobile {
+        /* Sets the mobile navbar to display */
+        display: flex;
+    }
+    #navbarSupportedContent {
+        width: 80%;
+    }
+    .navbar-nav {
+        flex-direction: row; /* forces the navlinks to display in row*/
+        justify-content: space-between;
+        padding-top: .25em;
+        padding-bottom: .25em;
+    }
+    .mobile-logo-container {
+        background-color: #343a40;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        z-index: 100;
+        align-content: center;
+    }
+    #mobile-image {
+        width: 10em;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        justify-content: space-around;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .language-button {
+        font-size: 0.5em;
+    }
+    /* End navbar stuff */
+
+    /* Specific to this page */
+    .wrapper {
+        line-height: 3rem;
+        font-size: 150%;
+    }
+    .jumbotron {
+        margin-top: 9em;
+    }
+
+
+}
+
+@media screen and (orientation:landscape) {
+    .desktop {
+        display: flex;
+    }
+    .navbar {
+        width: unset;
+        position: unset;
+        z-index: 1;
+        top: unset;
+        font-size: unset;
+        padding-top: unset;
+        padding-bottom: unset;
+        justify-content: space-between;
+    }
+    .mobile {
+        display: none;
+    }
+    .jumbotron {
+        margin-top: unset;
+    }
+}

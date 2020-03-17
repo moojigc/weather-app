@@ -1,0 +1,98 @@
+body {
+    font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+    font-size: 20px;
+    line-height: 150%;
+    background: rgb(178,189,255);
+    background: linear-gradient(0deg, rgba(178,189,255,1) 0%, rgba(255,93,48,1) 100%); ;
+    color: black;
+    margin: 0;
+    padding: 0;
+}
+h1 {    
+    font-family: 'Oxanium', 'Sawarabi Gothic', sans-serif;
+    font-size: 2.1em;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0;
+    text-align: center;
+}
+
+.wrapper {
+    border: lightgray;
+    border-radius: .2em;
+    border-style: solid;
+    border-width: 1px;
+    background-color: rgb(255, 255, 255);
+    /* background-color: transparent; */
+    margin-bottom: 2rem;
+    padding: 1rem;
+}
+.row {
+    margin: 1rem 0 1rem 0;
+}
+
+/* Footer */
+footer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    background-color: #343a40;
+    text-align: center;
+    margin-top: 10rem;
+    padding: 15px;
+    color: white;
+}
+#footer-name {
+    font-size: 1.5rem;
+    margin: 0;
+    color: white;
+}
+
+/* all navbar stuff */
+header {
+    margin-bottom: 0;
+    font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+}
+nav img {
+    width: 5em;
+}
+.navbar {
+    /* this moves the nav links to the right for some reason */
+    justify-content: space-between;
+    padding-top: unset;
+    padding-bottom: unset;
+}
+.mobile {
+    /* This class is for the mobile version of the navbar. Set not to display
+    on desktop or landscape-oriented phones */
+    display: none;
+}    
+.navbar-brand {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.language-button {
+    margin-left: 1em;
+    font-size: 1em;
+}
+/* end navbar */
+
+/* Specific to this page */
+.jumbotron {
+    text-align: center;
+    color: black;
+    /* text-shadow: 0px 0px 15px black; */
+    padding: 1rem;
+    margin-bottom: 0;
+    background-color: whitesmoke;
+}
+.display-none {
+    display: none;
+}
+#userSearches input, #userSearches button {
+    height: 3rem;
+}
+.search-btn {
+    min-width: 3rem;
+    margin-left: -3rem;
+}
