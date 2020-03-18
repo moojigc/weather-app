@@ -82,12 +82,17 @@
 							<i class="fas fa-search"></i>
 						</button>
 					</div>
-				</form>
+        </form>
+        <div class="search-box">
+          <p style="font-size: inherit; margin: 0; padding-left: 1rem;">Previous Searches</p>
+          <ul class="list-group" id="previousSearches"></ul>
+        </div>
 		
 		
 			</aside>
 		  
-			<main class="wrapper col-lg-8 container-lg shadow">   
+			<main id="weather-display" class="wrapper col-lg-8 container-lg shadow display-none">   
+
 				<h2 id="cityName"></h2>
 				<h5 id="temp"></h5>
 				<h5 id="humidity"></h5>

@@ -1,18 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Sen&display=swap');
+html {
+    height: 100%; /* for some reason the html doesn't take up the whole screen by default */
+}
 body {
     font-family: 'Roboto', 'Noto Sans JP', sans-serif;
     font-size: 20px;
     line-height: 150%;
-    background: rgb(178,189,255);
-    background: linear-gradient(0deg, rgba(178,189,255,1) 0%, rgba(255,93,48,1) 100%); ;
+    background: rgb(0,28,204);
+    background: linear-gradient(0deg, rgba(0,28,204,1) 0%, rgba(31,91,221,1) 14%, rgba(94,219,255,0.5886555305716037) 100%);  
     color: black;
     margin: 0;
     padding: 0;
 }
 h1 {    
-    font-family: 'Oxanium', 'Sawarabi Gothic', sans-serif;
-    font-size: 2.1em;
+    font-family: 'Sen', 'Sawarabi Gothic', sans-serif;
+    font-size: 2em;
     padding-top: 10px;
-    padding-bottom: 10px;
     margin: 0;
     text-align: center;
 }
@@ -84,7 +87,7 @@ nav img {
     /* text-shadow: 0px 0px 15px black; */
     padding: 1rem;
     margin-bottom: 0;
-    background-color: whitesmoke;
+    background-color: #f5f5f570;
 }
 .display-none {
     display: none;
@@ -95,4 +98,15 @@ nav img {
 .search-btn {
     min-width: 3rem;
     margin-left: -3rem;
+}
+.list-group-item {
+    font-size: 1rem;
+    padding: .5rem 1rem;
+}
+.search-box {
+    font-size: 1rem; 
+    background: #3e4f5630; 
+    border: black solid 1px; 
+    border-radius: 4px; 
+    margin: 1rem 0 0 0;
 }
