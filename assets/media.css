@@ -1,4 +1,4 @@
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 992px) {
     body {
         font-size: 40px;
     }
@@ -37,5 +37,11 @@
     }
     #weather-display h5 {
         font-size: 3rem;
+    }
+    .forecast-card {
+        margin: .5rem auto !important;
+    }
+    .forecast-row {
+        margin: unset;
     }
 }

@@ -91,6 +91,10 @@ nav img {
 .display-none {
     display: none;
 }
+.visibility-hidden {
+    visibility: hidden;
+}
+
 #userSearches input, #userSearches button {
     height: 3rem;
 }
@@ -111,8 +115,22 @@ nav img {
 }
 .forecast-card {
     background: lightblue;
-    margin: 0 auto;
-}
-.card {
     margin: auto;
+}
+.forecast-card p {
+    margin-bottom: .5rem;
+}
+
+.card {
+    padding: 1rem;
+}
+.card-body {
+    padding: 0;
+}
+
+@media screen and (min-width: 992px) {
+    .col-lg-2 {
+        flex: 0 0 19%;
+        max-width: 19%;
+    }
 }

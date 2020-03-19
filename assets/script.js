@@ -18,11 +18,15 @@ if (localStorage.getItem("User Search History") !== null) {
         row.text(savedUserSearchHistory[i]);
         docPreviousSearches.prepend(row);
     }
+
+    // display most recent search
+    var mostRecentCity = savedUserSearchHistory.slice(-1)[0]
+    displayResultsToPage(mostRecentCity);
 } 
 
 
-
 function getCurrentWeather(city) {
+    var lat; var lon;
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
     $.ajax({
         url: queryURL,
@@ -30,6 +34,9 @@ function getCurrentWeather(city) {
     }).then(function(response) {
         let currentResults = response;
         console.log(currentResults);
+
+        lat = currentResults.coord.lat;
+        lon = currentResults.coord.lon;
 
         // local vars
         let kelvin = parseInt(currentResults.main.temp);
@@ -44,6 +51,19 @@ function getCurrentWeather(city) {
         }
         printData();
     });
+    function getUVIndex() {
+        var queryURL = "https://api.openweathermap.org/data/2.5/uvi?q=" + lat + '&' + lon + "&appid=" + APIKey;
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function(response) {
+            let currentUVResults = response;
+            console.log(currentUVResults);
+            // var UVIndex =  
+            // docUVIndex.text('UV Index:')
+        });
+    }
+    getUVIndex();
 }
 
 function getForecast(city) {
@@ -73,21 +93,28 @@ function getForecast(city) {
                     return temp;
                 }
             },
-            dateConvert: function(day) {
-                convertedDate = moment(day.dt_txt).format('dddd, MM/DD');
-                return convertedDate;
+            dateConvert: function(day, nameOrDate) {
+                if (nameOrDate === 'name') {
+                    convertedDateName = moment(day.dt_txt).format('dddd');
+                    return convertedDateName;
+                } else if (nameOrDate === 'date') {
+                    convertedDateNumber = moment(day.dt_txt).format('MM/DD');
+                    return convertedDateNumber;
+                }
             },
             printData: function() {
+                $("#weather-display").find('.row').empty();
                 this.days.forEach(day => {
-                    let card = $('<div>').addClass('card col-md-2 forecast-card');
+                    let card = $('<div>').addClass('card col-lg-2 forecast-card');
                     let cardBody = $('<div>').addClass('card-body');
-                    let cardTitle = $("<h2>").addClass('card-title');
+                    let dayName = $("<h3>").addClass('card-title').text(this.dateConvert(day, 'name'));
+                    let date = $('<p>').text(this.dateConvert(day, 'date'));
                     let description = $('<p>').text(day.weather[0].main);
-                    let date = $('<p>').text(this.dateConvert(day));
-                    let temp = $('<p>').text(this.kelvinConvert(day, 'f'));
+                    let temp = $('<p>').text(this.kelvinConvert(day, 'f') + '°F');
 
-                    cardBody.append(cardTitle, date, description, temp);
+                    cardBody.append(dayName, date, description, temp);
                     card.append(cardBody);
+
                     $('#weather-display').find('.row').append(card);
                     // console.log(date + ': ' + temp + ' degrees. It will be: ' + description);
                 });
@@ -102,6 +129,7 @@ function getForecast(city) {
     });
 
 }
+
 
 $("<input>").on("keypress", function(event) {
     event.preventDefault();
@@ -122,11 +150,10 @@ function SaveDataToLocalStorage(data) {
 }
 
 function displayResultsToPage(search) {
-    $("#weather-display").removeClass("display-none");
+    $("#weather-display").removeClass("visibility-hidden");
     
     getCurrentWeather(search);
     getForecast(search);
-    SaveDataToLocalStorage(search);
 }
 
 // Event listeners
@@ -136,10 +163,13 @@ docSearchSubmit.on("click", function(event) {
     var docCityInput = $('#citySearchInput').val();
     docCityName.text('Loading...') // Show user loading text while waiting for API
     displayResultsToPage(docCityInput);
+    SaveDataToLocalStorage(docCityInput);
     
+    docPreviousSearches.children().last().remove();
     var row = $("<button>").addClass("list-group-item list-group-item-action");
     row.text(docCityInput);
     docPreviousSearches.prepend(row);    
+
 });
 
 $(".list-group-item").on('click', function() {
