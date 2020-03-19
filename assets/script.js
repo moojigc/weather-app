@@ -79,7 +79,7 @@ function getForecast(city) {
             },
             printData: function() {
                 this.days.forEach(day => {
-                    let card = $('<div>').addClass('card');
+                    let card = $('<div>').addClass('card col-md-2 forecast-card');
                     let cardBody = $('<div>').addClass('card-body');
                     let cardTitle = $("<h2>").addClass('card-title');
                     let description = $('<p>').text(day.weather[0].main);
@@ -88,7 +88,7 @@ function getForecast(city) {
 
                     cardBody.append(cardTitle, date, description, temp);
                     card.append(cardBody);
-                    $('#weather-display').append(card);
+                    $('#weather-display').find('.row').append(card);
                     // console.log(date + ': ' + temp + ' degrees. It will be: ' + description);
                 });
             },
@@ -125,6 +125,7 @@ function displayResultsToPage(search) {
     $("#weather-display").removeClass("display-none");
     
     getCurrentWeather(search);
+    getForecast(search);
     SaveDataToLocalStorage(search);
 }
 
@@ -138,9 +139,7 @@ docSearchSubmit.on("click", function(event) {
     
     var row = $("<button>").addClass("list-group-item list-group-item-action");
     row.text(docCityInput);
-    docPreviousSearches.prepend(row);
-    
-    getForecast(docCityInput);
+    docPreviousSearches.prepend(row);    
 });
 
 $(".list-group-item").on('click', function() {
