@@ -1,6 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Sen&display=swap');
 html {
-    height: 100%; /* for some reason the html doesn't take up the whole screen by default */
+    min-height: 100%; /* for some reason the html doesn't take up the whole screen by default */
 }
 body {
     font-family: 'Roboto', 'Noto Sans JP', sans-serif;
@@ -13,9 +12,8 @@ body {
     padding: 0;
 }
 h1 {    
-    font-family: 'Sen', 'Sawarabi Gothic', sans-serif;
-    font-size: 2em;
-    padding-top: 10px;
+    font-family: 'Bellota', 'Sawarabi Gothic', sans-serif;
+    font-size: 2rem;
     margin: 0;
     text-align: center;
 }
@@ -44,9 +42,10 @@ footer {
     margin-top: 10rem;
     padding: 15px;
     color: white;
+    z-index: 100;
 }
 #footer-name {
-    font-size: 1.5rem;
+    font-size: 1rem;
     margin: 0;
     color: white;
 }
@@ -65,11 +64,10 @@ nav img {
     padding-top: unset;
     padding-bottom: unset;
 }
-.mobile {
-    /* This class is for the mobile version of the navbar. Set not to display
-    on desktop or landscape-oriented phones */
-    display: none;
-}    
+.navbar-collapse {
+    flex-grow: unset;
+}
+
 .navbar-brand {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -83,6 +81,7 @@ nav img {
 /* Specific to this page */
 .jumbotron {
     text-align: center;
+    letter-spacing: 5px;
     color: black;
     /* text-shadow: 0px 0px 15px black; */
     padding: 1rem;
