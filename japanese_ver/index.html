@@ -21,57 +21,58 @@
 
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark desktop">
-		<a href="https://moojigc.github.io"><img class="navbar-brand" src="../assets/moojig-logo-white.png" alt="Moojig-logo"></a>
+		<a href="https://moojigc.github.io/index_ja.html"><img class="navbar-brand" src="../assets/moojig-logo-white.png" alt="Moojig-logo"></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 			</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item active">
-					<a class="nav-link" href="https://moojigc.github.io/index.html">About</span></a>
+					<a class="nav-link" href="https://moojigc.github.io/index_ja.html">自伝</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="https://moojigc.github.io/portfolio.html">Portfolio</a>
+					<a class="nav-link" href="https://moojigc.github.io/portfolio_ja.html">ポートフォリオ</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="https://moojigc.github.io/contact.html">Contact</a>
+					<a class="nav-link" href="https://moojigc.github.io/contact_ja.html">連絡</a>
 				</li>
-				<!-- <a href="" class="btn btn-primary language-button">
-					日本語
-				</a> -->
+				<a href="../index.html" class="btn btn-primary language-button">
+					English
+				</a>
 			</ul>
 		</div>
 	</nav>
 
 	<header class="jumbotron">
-		<h1 class="display-3">天気予報掲示板</h1>
+		<h1 class="display-3">天気予報の掲示板</h1>
 	</header>
 	
 	<div class="container-fluid">
 		<div class="row">
-			<aside class="wrapper shadow container-lg col-lg-4">
+			<aside class="wrapper shadow container-lg col-lg-3">
 				<form>
-					<label for="city"><h3><b>都市を探す:</b></h3></label>
+					<label for="city"><h3><b>都市を調べる:</b></h3></label>
 					<div id="userSearches" style="display: flex;">
 						<input type="text" class="form-control" id="citySearchInput" value="">
 						<button id="searchSubmit" class="search-btn btn btn-outline-primary">
 							<i class="fas fa-search"></i>
 						</button>
 					</div>
+					<small>都道府県しか調べません。</small>
 				</form>
 				<div class="search-box">
-				<p style="font-size: inherit; margin: .5rem 0; font-size: 1.6rem; padding-left: 1rem;">前に探した</p>
+				<p style="font-size: inherit; margin: .5rem 0; font-size: 1.6rem; padding-left: 1rem;">前に調べた都市:</p>
 				<ul class="list-group" id="previousSearches"></ul>
 				</div>
 			</aside>
 		  
-			<main id="weather-display" class="wrapper card col-lg-7 container-lg shadow visibility-hidden">
+			<main id="weather-display" class="wrapper card col-lg-8 container-lg shadow visibility-hidden">
 					<div class="card-body">
 						<h2 class="card-title" id="cityName"></h2>
-						<h5 id="temp"></h5>
-						<h5 id="humidity"></h5>
-						<h5 id="wind"></h5>
-						<h5 id="uvIndex"></h5>
+						<h5 class="today-details" id="temp"></h5>
+						<h5 class="today-details" id="humidity"></h5>
+						<h5 class="today-details" id="wind"></h5>
+						<h5 class="today-details" id="uvIndex"></h5>
 					</div>
 					<div class="row forecast-row"></div>
 			</main>
@@ -80,7 +81,8 @@
 	</div>
 
 	<footer class="container-fluid">
-        <p id="footer-name">© Munkhtsogt Battsogt 2020</p>
+		<div>© <ruby>Munkhtsogt Battsogt<rt>ムンクツォックト・バッツォクト</rt></ruby> 2020年</div>
+		<div>天気データ<ruby><a href='https://openweathermap.org/'>OpenWeatherAPI™</a><rt>オーパン・ウェーザー・エイピイアイ</rt></ruby>から頂きました</div>
     </footer>
 	
     <script src="script.js" type="text/javascript"></script>

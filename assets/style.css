@@ -20,6 +20,7 @@ h1 {
 
 .wrapper {
     border-radius: .2rem;
+    border: unset !important;
     background-color: rgba(255, 255, 255, 0.404);
     /* background-color: transparent; */
     margin-bottom: 2rem;
