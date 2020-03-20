@@ -19,6 +19,7 @@
         min-width: 5rem;
         margin-left: -5rem;
     }
+    /* navbar */
     .navbar img {
         width: 10rem;
     }
@@ -26,9 +27,11 @@
         width: 2em;
         height: 2em;
     }
+    /*  */
     i {
         font-size: 3rem;
     }
+    /* weather display div */
     #weather-display {
         margin-bottom: 10rem;
     }
@@ -38,10 +41,14 @@
     #weather-display h5 {
         font-size: 3rem;
     }
+    /* forecast cards */
     .forecast-card {
-        margin: .5rem auto !important;
+        margin: 1rem auto !important;
     }
     .forecast-row {
         margin: unset;
+    }
+    .search-box {
+        max-height: 39rem;
     }
 }

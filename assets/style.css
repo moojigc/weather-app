@@ -12,18 +12,15 @@ body {
     padding: 0;
 }
 h1 {    
-    font-family: 'Bellota', 'Sawarabi Gothic', sans-serif;
+    font-family: 'Bellota', 'Noto Serif JP', sans-serif;
     font-size: 2rem;
     margin: 0;
     text-align: center;
 }
 
 .wrapper {
-    border: lightgray;
-    border-radius: .2em;
-    border-style: solid;
-    border-width: 1px;
-    background-color: rgb(255, 255, 255);
+    border-radius: .2rem;
+    background-color: rgba(255, 255, 255, 0.404);
     /* background-color: transparent; */
     margin-bottom: 2rem;
     padding: 1rem;
@@ -34,31 +31,28 @@ h1 {
 
 /* Footer */
 footer {
+    font-family: 'Montserrat', 'Noto Sans JP', sans-serif;
+    font-size: 1rem;
+    background-color: #343a40;
+    color: white;
+    text-align: center;
     position: fixed;
     bottom: 0px;
     width: 100%;
-    background-color: #343a40;
-    text-align: center;
     margin-top: 10rem;
     padding: 15px;
-    color: white;
     z-index: 100;
-}
-#footer-name {
-    font-size: 1rem;
-    margin: 0;
-    color: white;
 }
 
 /* all navbar stuff */
 header {
     margin-bottom: 0;
-    font-family: 'Roboto', 'Noto Sans JP', sans-serif;
 }
 nav img {
     width: 5em;
 }
 .navbar {
+    font-family: 'Montserrat', 'Noto Sans JP', sans-serif;
     /* this moves the nav links to the right for some reason */
     justify-content: space-between;
     padding-top: unset;
@@ -105,20 +99,16 @@ nav img {
 .list-group-item {
     font-size: 1rem;
     padding: .5rem 1rem;
+    background: rgba(0, 0, 0, 0.35);
+    color: white;
 }
 .search-box {
     font-size: 1rem; 
-    background: #3e4f5630; 
-    border: black solid 1px; 
+    background: #3e4f5630;  
     border-radius: 4px; 
     margin: 1rem 0 0 0;
-}
-.forecast-card {
-    background: lightblue;
-    margin: auto;
-}
-.forecast-card p {
-    margin-bottom: .5rem;
+    max-height: 17.6rem;
+    overflow: hidden;
 }
 
 .card {
@@ -126,6 +116,32 @@ nav img {
 }
 .card-body {
     padding: 0;
+}
+.forecast-card {
+    background: lightblue;
+    margin: auto;
+    border: hidden;
+}
+.forecast-card p {
+    margin-bottom: .5rem;
+}
+.forecast-card .card-title {
+    margin-bottom: 0;
+    text-decoration: underline;
+}
+.today-details {
+    margin-left: .5rem;
+}
+#cityName {
+    margin: -1rem -1rem 1rem -1rem;
+    background: rgb(255, 246, 118);
+    color: black;
+    text-shadow: 0px 0px 10px rgb(124, 106, 0);
+    font-family: 'Bellota', serif;
+    text-align: center;
+    letter-spacing: .5rem;
+    padding: 1rem;
+    border-radius: .2rem;
 }
 
 @media screen and (min-width: 992px) {

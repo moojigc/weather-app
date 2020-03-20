@@ -1,5 +1,3 @@
-var currentResults;
-var currentUVResults;
 $(document).ready(function() {
 
 // declare global vars (doc- prefix means it is a DOM element)
@@ -26,19 +24,19 @@ if (localStorage.getItem("User Search History") !== null) {
     displayResultsToPage(mostRecentCity);
 } 
 
+
 function getCurrentWeather(city) {
     var lat; var lon;
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey + '&lang=ja';
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function(response) {
-        currentResults = response;
+        let currentResults = response;
         console.log(currentResults);
 
         lat = currentResults.coord.lat;
         lon = currentResults.coord.lon;
-        console.log(lat, lon);
 
         // local vars
         let kelvin = parseInt(currentResults.main.temp);
@@ -52,21 +50,20 @@ function getCurrentWeather(city) {
             docWind.text('Wind speed: '+ currentResults.wind.speed + ' MPH');
         }
         printData();
-        getUVIndex(lat, lon);
     });
-}
-function getUVIndex(lat, lon) {
-    var queryURL = 'https://api.openweathermap.org/data/2.5/uvi?appid=' + APIKey + '&lat=' + lat + '&lon=' + lon;
-    console.log(lat,lon)
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }).then(function(response) {
-        currentUVResults = response;
-        console.log(currentUVResults);
-        var UVIndex = response.value;
-        docUVIndex.text('UV index: ' + UVIndex);
-    });
+    function getUVIndex() {
+        var queryURL = "https://api.openweathermap.org/data/2.5/uvi?q=" + lat + '&' + lon + "&appid=" + APIKey;
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function(response) {
+            let currentUVResults = response;
+            console.log(currentUVResults);
+            // var UVIndex =  
+            // docUVIndex.text('UV Index:')
+        });
+    }
+    getUVIndex();
 }
 
 function getForecast(city) {
@@ -101,7 +98,7 @@ function getForecast(city) {
                     convertedDateName = moment(day.dt_txt).format('dddd');
                     return convertedDateName;
                 } else if (nameOrDate === 'date') {
-                    convertedDateNumber = moment(day.dt_txt).format('MMMM Do');
+                    convertedDateNumber = moment(day.dt_txt).format('MM/DD');
                     return convertedDateNumber;
                 }
             },
@@ -117,18 +114,6 @@ function getForecast(city) {
 
                     cardBody.append(dayName, date, description, temp);
                     card.append(cardBody);
-
-                    if (day.weather[0].main === 'Clouds') {
-                        description.append($('<i class="fas fa-cloud">'))
-                        card.attr('style', ' background: rgb(227,255,255); background: linear-gradient(180deg, rgba(227,255,255,0) 0%, rgba(138,138,138,0.6418768190870099) 100%); ');
-                        
-                    } else if (day.weather[0].main === 'Rain') {
-                        description.append($('<i class="fas fa-cloud-showers-heavy">'));
-                        card.attr('style', ' background: rgb(119,119,119); background: linear-gradient(180deg, rgba(119,119,119,0.7931373232886905) 0%, rgba(0,125,255,0.6418768190870099) 100%); ');
-                    } else {
-                        description.append($('<i class="far fa-sun">'))
-                        card.attr('style', 'background: rgb(227,255,255); background: linear-gradient(180deg, rgba(227,255,255,0) 0%, rgba(0,95,255,0.6418768190870099) 100%); ');
-                    }
 
                     $('#weather-display').find('.row').append(card);
                     // console.log(date + ': ' + temp + ' degrees. It will be: ' + description);
@@ -180,7 +165,7 @@ docSearchSubmit.on("click", function(event) {
     displayResultsToPage(docCityInput);
     SaveDataToLocalStorage(docCityInput);
     
-    // docPreviousSearches.children().last().remove();
+    docPreviousSearches.children().last().remove();
     var row = $("<button>").addClass("list-group-item list-group-item-action");
     row.text(docCityInput);
     docPreviousSearches.prepend(row);    
