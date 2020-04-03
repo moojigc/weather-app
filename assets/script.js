@@ -1,278 +1,63 @@
-var currentResults;
-var currentUVResults;
 $(document).ready(function() {
+let currentResults;
+let currentUVResults;
+let lat;
+let lon;
 
 // declare global vars (doc- prefix means it is a DOM element)
-var docSearchSubmit = $("#searchSubmit");
-var docCityName = $('#cityName');
-var docTemp = $('#temp');
-var docHumidity = $('#humidity');
-var docWind = $('#wind');
-var docUVIndex = $('#uvIndex'); 
-var ajaxResults;
-var APIKey = '4905b4a966ed8015a260f7a118088eb9';
-var docPreviousSearches = $('#previousSearches');
-var savedUserSearchHistory; 
-if (localStorage.getItem("User Search History") !== null) {
-    savedUserSearchHistory = JSON.parse(localStorage.getItem("User Search History")).slice(0).slice(-5);
-    for (var i=0; i<savedUserSearchHistory.length; i++) {
-        var row = $("<button>").addClass("list-group-item list-group-item-action");
-        row.text(savedUserSearchHistory[i]);
-        docPreviousSearches.prepend(row);
+const $elements = [$('#searchSubmit'), $('#cityName'), $('#temp'), $('#humidity'), $('#wind'), $('#uvIndex'), $('#previousSearches'), $('#search-box-label') ];
+const [ docSearchSubmit, docCityName, docTemp, docHumidity, docWind, docUVIndex, docPreviousSearches, docSearchBoxLabel ] = $elements;
+
+const APIKey = '4905b4a966ed8015a260f7a118088eb9';
+let savedUserSearchHistory; 
+
+function getLocation() {
+    let lat; let lon;
+    docSearchBoxLabel.text('Getting location...');
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            lat = position.coords.latitude;
+            lon = position.coords.longitude;
+            $("#weather-display").removeClass("visibility-hidden");
+            getCurrentWeatherbyGeo(lat, lon);
+            docSearchBoxLabel.text('Search for a City:');
+        }, 
+        function() {
+            docSearchBoxLabel.text('Search for your City:');
+        });
+    } else {
+        docCityName.text('Search for your City:');
+        console.log("Geolocation is not supported by this browser.");
     }
+}
 
-    // display most recent search
-    var mostRecentCity = savedUserSearchHistory.slice(-1)[0];
-    displayResultsToPage(mostRecentCity);
-} 
-
-function getCurrentWeather(city, state, country) {
-    // By default you can't search by state abbreviations!!! 
-    var states = [
-        {
-            "name": "Alabama",
-            "abbreviation": "AL"
-        },
-        {
-            "name": "Alaska",
-            "abbreviation": "AK"
-        },
-        {
-            "name": "American Samoa",
-            "abbreviation": "AS"
-        },
-        {
-            "name": "Arizona",
-            "abbreviation": "AZ"
-        },
-        {
-            "name": "Arkansas",
-            "abbreviation": "AR"
-        },
-        {
-            "name": "California",
-            "abbreviation": "CA"
-        },
-        {
-            "name": "Colorado",
-            "abbreviation": "CO"
-        },
-        {
-            "name": "Connecticut",
-            "abbreviation": "CT"
-        },
-        {
-            "name": "Delaware",
-            "abbreviation": "DE"
-        },
-        {
-            "name": "District Of Columbia",
-            "abbreviation": "DC"
-        },
-        {
-            "name": "Federated States Of Micronesia",
-            "abbreviation": "FM"
-        },
-        {
-            "name": "Florida",
-            "abbreviation": "FL"
-        },
-        {
-            "name": "Georgia",
-            "abbreviation": "GA"
-        },
-        {
-            "name": "Guam",
-            "abbreviation": "GU"
-        },
-        {
-            "name": "Hawaii",
-            "abbreviation": "HI"
-        },
-        {
-            "name": "Idaho",
-            "abbreviation": "ID"
-        },
-        {
-            "name": "Illinois",
-            "abbreviation": "IL"
-        },
-        {
-            "name": "Indiana",
-            "abbreviation": "IN"
-        },
-        {
-            "name": "Iowa",
-            "abbreviation": "IA"
-        },
-        {
-            "name": "Kansas",
-            "abbreviation": "KS"
-        },
-        {
-            "name": "Kentucky",
-            "abbreviation": "KY"
-        },
-        {
-            "name": "Louisiana",
-            "abbreviation": "LA"
-        },
-        {
-            "name": "Maine",
-            "abbreviation": "ME"
-        },
-        {
-            "name": "Marshall Islands",
-            "abbreviation": "MH"
-        },
-        {
-            "name": "Maryland",
-            "abbreviation": "MD"
-        },
-        {
-            "name": "Massachusetts",
-            "abbreviation": "MA"
-        },
-        {
-            "name": "Michigan",
-            "abbreviation": "MI"
-        },
-        {
-            "name": "Minnesota",
-            "abbreviation": "MN"
-        },
-        {
-            "name": "Mississippi",
-            "abbreviation": "MS"
-        },
-        {
-            "name": "Missouri",
-            "abbreviation": "MO"
-        },
-        {
-            "name": "Montana",
-            "abbreviation": "MT"
-        },
-        {
-            "name": "Nebraska",
-            "abbreviation": "NE"
-        },
-        {
-            "name": "Nevada",
-            "abbreviation": "NV"
-        },
-        {
-            "name": "New Hampshire",
-            "abbreviation": "NH"
-        },
-        {
-            "name": "New Jersey",
-            "abbreviation": "NJ"
-        },
-        {
-            "name": "New Mexico",
-            "abbreviation": "NM"
-        },
-        {
-            "name": "New York",
-            "abbreviation": "NY"
-        },
-        {
-            "name": "North Carolina",
-            "abbreviation": "NC"
-        },
-        {
-            "name": "North Dakota",
-            "abbreviation": "ND"
-        },
-        {
-            "name": "Northern Mariana Islands",
-            "abbreviation": "MP"
-        },
-        {
-            "name": "Ohio",
-            "abbreviation": "OH"
-        },
-        {
-            "name": "Oklahoma",
-            "abbreviation": "OK"
-        },
-        {
-            "name": "Oregon",
-            "abbreviation": "OR"
-        },
-        {
-            "name": "Palau",
-            "abbreviation": "PW"
-        },
-        {
-            "name": "Pennsylvania",
-            "abbreviation": "PA"
-        },
-        {
-            "name": "Puerto Rico",
-            "abbreviation": "PR"
-        },
-        {
-            "name": "Rhode Island",
-            "abbreviation": "RI"
-        },
-        {
-            "name": "South Carolina",
-            "abbreviation": "SC"
-        },
-        {
-            "name": "South Dakota",
-            "abbreviation": "SD"
-        },
-        {
-            "name": "Tennessee",
-            "abbreviation": "TN"
-        },
-        {
-            "name": "Texas",
-            "abbreviation": "TX"
-        },
-        {
-            "name": "Utah",
-            "abbreviation": "UT"
-        },
-        {
-            "name": "Vermont",
-            "abbreviation": "VT"
-        },
-        {
-            "name": "Virgin Islands",
-            "abbreviation": "VI"
-        },
-        {
-            "name": "Virginia",
-            "abbreviation": "VA"
-        },
-        {
-            "name": "Washington",
-            "abbreviation": "WA"
-        },
-        {
-            "name": "West Virginia",
-            "abbreviation": "WV"
-        },
-        {
-            "name": "Wisconsin",
-            "abbreviation": "WI"
-        },
-        {
-            "name": "Wyoming",
-            "abbreviation": "WY"
+function getCurrentWeatherbyGeo(lat, lon) {
+    let queryURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIKey}`;
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(response) {
+        currentResults = response;
+        console.log(currentResults);
+        // local vars
+        const kelvin = parseInt(currentResults.main.temp);
+        const tempF = Math.round((kelvin - 273.15)*(1.8) + 32);
+        const tempC = Math.round((kelvin - 273.15));
+    
+        function printData() {
+            docCityName.text(currentResults.name);
+            docTemp.text('Current temperature: ' + tempF + '°F');
+            docHumidity.text('Humidity: ' + currentResults.main.humidity + '%');
+            docWind.text('Wind speed: '+ currentResults.wind.speed + ' MPH');
         }
-    ];
+        printData();
+        getUVIndex(lat, lon);
+        getForecast(currentResults.name);
+    });
+}
 
-    // if (state !== null) {
-    //     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + state + country + "&appid=" + APIKey;
-    // } 
-
-    var lat; var lon;
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
+function getCurrentWeather(city) {
+    let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
     $.ajax({
         url: queryURL,
         method: "GET"
@@ -299,6 +84,7 @@ function getCurrentWeather(city, state, country) {
         getUVIndex(lat, lon);
     });
 }
+
 function getUVIndex(lat, lon) {
     var queryURL = 'https://api.openweathermap.org/data/2.5/uvi?appid=' + APIKey + '&lat=' + lat + '&lon=' + lon;
     console.log(lat,lon)
@@ -419,6 +205,7 @@ function SaveDataToLocalStorage(data) {
 
 function displayResultsToPage(search) {
     $("#weather-display").removeClass("visibility-hidden");
+    console.log('i ran');
     
     getCurrentWeather(search);
     getForecast(search);
@@ -440,9 +227,24 @@ docSearchSubmit.on("click", function(event) {
 
 });
 
-$(".list-group-item").on('click', function() {
+$(document).on("click", ".list-group-item", function() {
     search = $(this).text();
     displayResultsToPage(search);
 });
+
+if (localStorage.getItem("User Search History") !== null) {
+    savedUserSearchHistory = JSON.parse(localStorage.getItem("User Search History")).slice(0).slice(-5);
+    for (var i=0; i<savedUserSearchHistory.length; i++) {
+        var row = $("<button>").addClass("list-group-item list-group-item-action");
+        row.text(savedUserSearchHistory[i]);
+        docPreviousSearches.prepend(row);
+    }
+    getLocation();
+    if (getLocation() === true) {
+        // display most recent search
+        const mostRecentCity = savedUserSearchHistory.slice(-1)[0];
+        displayResultsToPage(mostRecentCity);
+    } 
+}
 
 }); //End of script! Must write above this line!

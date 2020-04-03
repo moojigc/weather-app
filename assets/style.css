@@ -126,6 +126,7 @@ nav img {
     background: lightblue;
     margin: auto;
     border: hidden;
+    box-shadow: 0px 0px 10px 4px #f5f5f55e;
 }
 .forecast-card p {
     margin-bottom: .5rem;
